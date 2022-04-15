@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CIT582_Algorand/.idea/CIT582_Algorand.iml" filepath="$PROJECT_DIR$/../CIT582_Algorand/.idea/CIT582_Algorand.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../CIT582_P1/.idea/CIT582_P1.iml" filepath="$PROJECT_DIR$/../CIT582_P1/.idea/CIT582_P1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../CIT582_P4/.idea/CIT582_P4.iml" filepath="$PROJECT_DIR$/../CIT582_P4/.idea/CIT582_P4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CIT582_P5.iml" filepath="$PROJECT_DIR$/.idea/CIT582_P5.iml" />
+    </modules>
+  </component>
+</project>
