@@ -212,9 +212,9 @@ def execute_txes(txes):
 
 @app.route('/address', methods=['POST'])
 def address():
-    print("here")
     if request.method == "POST":
         content = request.get_json(silent=True)
+        print(content)
         if 'platform' not in content.keys():
             print(f"Error: no platform provided")
             return jsonify("Error: no platform provided")
