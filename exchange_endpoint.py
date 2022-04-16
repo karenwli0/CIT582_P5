@@ -126,7 +126,6 @@ def get_eth_keys(filename="eth_mnemonic.txt"):
     acct = w3.eth.account.from_mnemonic("exclude shop before cheap forward gadget loop route skin trash absent feed alien cluster federal regular mix mixed result soon mixed radio cage abstract try")
     eth_pk = acct._address
     eth_sk = acct._private_key
-    print("here")
 
     return eth_sk, eth_pk
 
@@ -224,6 +223,7 @@ def address():
 
         if content['platform'] == "Ethereum":
             # Your code here
+            print("here")
             eth_sk, eth_pk = get_eth_keys()
             return jsonify(eth_pk)
         if content['platform'] == "Algorand":
