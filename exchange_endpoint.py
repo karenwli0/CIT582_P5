@@ -247,7 +247,7 @@ def address():
             # Your code here
             eth_sk, eth_pk = get_eth_keys()
             print(eth_pk, jsonify(eth_pk))
-            return jsonify(eth_pk)
+            return eth_pk
         # if content['platform'] == "Algorand":
         if platform == "Algorand":
             # Your code here
@@ -261,7 +261,7 @@ def trade():
     connect_to_blockchains()
     w3 = Web3()
     server_pk = address()
-    print(server_pk)
+    # print(server_pk)
     if request.method == "POST":
         content = request.get_json(silent=True)
         columns = ["buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk"]
@@ -329,7 +329,7 @@ def trade():
             gas = tx.get('result').get('value')
             sender = tx.get('result').get('from')
             receiver = tx.get('result').get('to')
-            print(gas, sell_amount, sender, pk, receiver, server_pk)
+            # print(gas, sell_amount, sender, pk, receiver, server_pk)
             if gas == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
