@@ -129,7 +129,7 @@ def get_eth_keys(filename="eth_mnemonic.txt"):
     acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key.hex()
-    print("eth", eth_pk, eth_sk)
+    # print("eth", eth_pk, eth_sk)
 
     return eth_sk, eth_pk
 
@@ -328,7 +328,7 @@ def trade():
             gas = tx.get('result').get('value')
             sender = tx.get('result').get('from')
             receiver = tx.get('result').get('to')
-            # print(gas, sell_amount, sender, pk, receiver, server_pk)
+            print(gas, sell_amount, sender, pk, receiver, server_pk)
             if gas == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
@@ -337,7 +337,7 @@ def trade():
             amount = tx.get('transactions')[0].get('payment-transaction').get('amount')
             sender = tx.get('transactions')[0].get('sender')
             receiver = tx.get('transactions')[0].get('payment-transaction').get('receiver')
-            # print(amount, sell_amount, sender, pk, receiver, server_pk)
+            print(amount, sell_amount, sender, pk, receiver, server_pk)
             if amount == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
