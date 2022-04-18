@@ -247,7 +247,7 @@ def address():
             # Your code here
             eth_sk, eth_pk = get_eth_keys()
             print(eth_pk, jsonify(eth_pk))
-            return eth_pk
+            return jsonify(eth_pk)
         # if content['platform'] == "Algorand":
         if platform == "Algorand":
             # Your code here
