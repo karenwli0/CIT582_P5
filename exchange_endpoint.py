@@ -337,6 +337,7 @@ def trade():
         # TODO: Add the order to the database
 
         if sig_result and validity:
+            print("here")
             # TODO: Fill the order
             order = {}
             order['buy_currency'] = payload.get('buy_currency')
