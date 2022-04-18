@@ -228,18 +228,25 @@ def address():
     if request.method == "POST":
         content = request.get_json(silent=True)
         print(content)
-        if 'platform' not in content.keys():
-            print(f"Error: no platform provided")
-            return jsonify("Error: no platform provided")
-        if not content['platform'] in ["Ethereum", "Algorand"]:
-            print(f"Error: {content['platform']} is an invalid platform")
-            return jsonify(f"Error: invalid platform provided: {content['platform']}")
+        # if 'platform' not in content.keys():
+        #     print(f"Error: no platform provided")
+        #     return jsonify("Error: no platform provided")
+        # if not content['platform'] in ["Ethereum", "Algorand"]:
+        #     print(f"Error: {content['platform']} is an invalid platform")
+        #     return jsonify(f"Error: invalid platform provided: {content['platform']}")
 
-        if content['platform'] == "Ethereum":
+        payload = content.get('payload')
+        platform = content.get('platform')
+        if platform == None:
+            platform = payload.get('platform')
+
+        # if content['platform'] == "Ethereum":
+        if platform == "Ethereum":
             # Your code here
             eth_sk, eth_pk = get_eth_keys()
             return jsonify(eth_pk)
-        if content['platform'] == "Algorand":
+        # if content['platform'] == "Algorand":
+        if platform == "Algorand":
             # Your code here
             algo_sk, algo_pk = get_algo_keys()
             return jsonify(algo_pk)
