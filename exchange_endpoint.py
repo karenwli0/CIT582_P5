@@ -129,7 +129,7 @@ def get_eth_keys(filename="eth_mnemonic.txt"):
     acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key.hex()
-    # print("eth", eth_pk, eth_sk)
+    print("eth", eth_pk, eth_sk)
 
     return eth_sk, eth_pk
 
@@ -246,7 +246,7 @@ def address():
         if platform == "Ethereum":
             # Your code here
             eth_sk, eth_pk = get_eth_keys()
-            print(jsonify(eth_pk))
+            print(eth_pk, jsonify(eth_pk))
             return jsonify(eth_pk)
         # if content['platform'] == "Algorand":
         if platform == "Algorand":
