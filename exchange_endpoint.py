@@ -325,6 +325,7 @@ def trade():
             gas = tx.get('result').get('value')
             sender = tx.get('result').get('from')
             receiver = tx.get('result').get('to')
+            print(gas, sell_amount, sender, pk, receiver, server_pk)
             if gas == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
@@ -333,11 +334,12 @@ def trade():
             amount = tx.get('transactions')[0].get('payment-transaction').get('amount')
             sender = tx.get('transactions')[0].get('sender')
             receiver = tx.get('transactions')[0].get('payment-transaction').get('receiver')
+            print(amount, sell_amount, sender, pk, receiver, server_pk)
             if amount == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
         # TODO: Add the order to the database
-        print(sig_result, validity)
+        # print(sig_result, validity)
 
         if sig_result and validity:
             # TODO: Fill the order
