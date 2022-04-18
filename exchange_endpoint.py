@@ -114,6 +114,7 @@ def get_algo_keys():
     mnemonic_secret = "exclude shop before cheap forward gadget loop route skin trash absent feed alien cluster federal regular mix mixed result soon mixed radio cage abstract try"
     algo_sk = mnemonic.to_private_key(mnemonic_secret)
     algo_pk = mnemonic.to_public_key(mnemonic_secret)
+    print("algo", algo_pk, algo_sk)
 
     return algo_sk, algo_pk
 
@@ -128,6 +129,7 @@ def get_eth_keys(filename="eth_mnemonic.txt"):
     acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key
+    print("eth", eth_pk, eth_sk)
 
     return eth_sk, eth_pk
 
@@ -258,6 +260,7 @@ def trade():
     connect_to_blockchains()
     w3 = Web3()
     server_pk = address()
+    print(server_pk)
     if request.method == "POST":
         content = request.get_json(silent=True)
         columns = ["buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk"]
@@ -325,7 +328,7 @@ def trade():
             gas = tx.get('result').get('value')
             sender = tx.get('result').get('from')
             receiver = tx.get('result').get('to')
-            print(gas, sell_amount, sender, pk, receiver, server_pk)
+            # print(gas, sell_amount, sender, pk, receiver, server_pk)
             if gas == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
@@ -334,7 +337,7 @@ def trade():
             amount = tx.get('transactions')[0].get('payment-transaction').get('amount')
             sender = tx.get('transactions')[0].get('sender')
             receiver = tx.get('transactions')[0].get('payment-transaction').get('receiver')
-            print(amount, sell_amount, sender, pk, receiver, server_pk)
+            # print(amount, sell_amount, sender, pk, receiver, server_pk)
             if amount == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
