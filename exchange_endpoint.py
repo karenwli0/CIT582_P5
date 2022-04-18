@@ -160,7 +160,10 @@ def fill_order(order, txes=[]):
     result.filled = datetime.now()
     result.counterparty_id = order_obj.id
     g.session.commit()
-    txes.append(order_obj)
+
+    tx_dict = {'order_id': order_obj.id, 'platform': order["sell_currency"], 'receiver_pk': order['receiver_pk'],
+               'order': result, 'tx_amount': order["sell_amount"]}
+    txes.append(tx_dict)
     txes.append(result)
 
     # print(result.id, result.counterparty_id, order_obj.id, order_obj.counterparty_id)
@@ -327,7 +330,7 @@ def trade():
         # TODO: Add the order to the database
 
         if sig_result and validity:
-        # TODO: Fill the order
+            # TODO: Fill the order
             order = {}
             order['buy_currency'] = payload.get('buy_currency')
             order['sell_currency'] = payload.get('sell_currency')

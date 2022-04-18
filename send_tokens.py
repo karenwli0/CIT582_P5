@@ -27,6 +27,10 @@ def connect_to_algo(connection_type=''):
 
 def send_tokens_algo(acl, sender_sk, txes):
     params = acl.suggested_params
+    gen_hash = params.gh
+    first_valid_round = params.first
+    tx_fee = params.min_fee
+    last_valid_round = params.last
 
     # TODO: You might want to adjust the first/last valid rounds in the suggested_params
     #       See guide for details
@@ -41,23 +45,28 @@ def send_tokens_algo(acl, sender_sk, txes):
 
     tx_ids = []
     for i, tx in enumerate(txes):
-        unsigned_tx = "Replace me with a transaction object"
+        send_to_address = tx.get("receiver_pk")
+        send_amount = tx.get("sell_amount")
+        unsigned_tx = transaction.PaymentTxn(sender_pk, tx_fee, first_valid_round, last_valid_round, gen_hash,
+                                             send_to_address,
+                                             send_amount, flat_fee=True)
 
         # TODO: Sign the transaction
-        signed_tx = "Replace me with a SignedTransaction object"
+        signed_tx = tx.sign(sender_sk)
 
         try:
             print(f"Sending {tx['amount']} microalgo from {sender_pk} to {tx['receiver_pk']}")
 
             # TODO: Send the transaction to the testnet
-
-            tx_id = "Replace me with the tx_id"
+            tx_confirm = acl.send_transaction(signed_tx)
+            tx_id = signed_tx.transaction.get_txid()
             txinfo = wait_for_confirmation_algo(acl, txid=tx_id)
+            tx_ids.append(tx_id)
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n")
         except Exception as e:
             print(e)
 
-    return []
+    return tx_ids
 
 
 # Function from Algorand Inc.
@@ -128,6 +137,19 @@ def send_tokens_eth(w3, sender_sk, txes):
     tx_ids = []
     for i, tx in enumerate(txes):
         # Your code here
+        receiver_pk = tx.get("receiver_pk")
+        tx_amount = tx.get("sell_amount")
+        tx_dict = {
+            'nonce': w3.eth.get_transaction_count(sender_pk, "pending"),
+            'gasPrice': w3.eth.gas_price,
+            'gas': w3.eth.estimate_gas({'from': sender_pk, 'to': receiver_pk, 'data': b'', 'amount': tx_amount}),
+            'to': receiver_pk,
+            'value': tx_amount,
+            'data': b''}
+        signed_txn = w3.eth.account.sign_transaction(tx_dict, sender_sk)
+        tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        wait_for_confirmation_eth(w3, tx_id)
+        tx_ids.append(tx_id)
         continue
 
     return tx_ids
