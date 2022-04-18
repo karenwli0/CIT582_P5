@@ -295,6 +295,8 @@ def trade():
         # If all goes well, return jsonify(True). else return jsonify(False)
         payload = content.get('payload')
         platform = content.get('platform')
+        if platform == None:
+            platform = payload.get('platform')
         sig = content.get('sig')
         pk = payload.get('sender_pk')
         id = payload.get('tx_id')
@@ -337,7 +339,6 @@ def trade():
         # TODO: Add the order to the database
 
         if sig_result and validity:
-            print("here")
             # TODO: Fill the order
             order = {}
             order['buy_currency'] = payload.get('buy_currency')
