@@ -114,7 +114,7 @@ def get_algo_keys():
     mnemonic_secret = "exclude shop before cheap forward gadget loop route skin trash absent feed alien cluster federal regular mix mixed result soon mixed radio cage abstract try"
     algo_sk = mnemonic.to_private_key(mnemonic_secret)
     algo_pk = mnemonic.to_public_key(mnemonic_secret)
-    print("algo", algo_pk, algo_sk)
+    # print("algo", algo_pk, algo_sk)
 
     return algo_sk, algo_pk
 
@@ -128,7 +128,7 @@ def get_eth_keys(filename="eth_mnemonic.txt"):
     acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
     acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
-    eth_sk = acct._private_key
+    eth_sk = acct._private_key.hex()
     print("eth", eth_pk, eth_sk)
 
     return eth_sk, eth_pk
