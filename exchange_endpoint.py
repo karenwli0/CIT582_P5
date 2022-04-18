@@ -160,6 +160,8 @@ def fill_order(order, txes=[]):
     result.filled = datetime.now()
     result.counterparty_id = order_obj.id
     g.session.commit()
+    txes.append(order_obj)
+    txes.append(result)
 
     # print(result.id, result.counterparty_id, order_obj.id, order_obj.counterparty_id)
 
@@ -171,7 +173,7 @@ def fill_order(order, txes=[]):
                      'buy_amount': new_buy_amount, 'sell_amount': new_sell_amount, 'sender_pk': order_obj.sender_pk,
                      'receiver_pk': order_obj.receiver_pk, 'creator_id': order_obj.id}
         # print(new_buy_amount, new_sell_amount)
-        fill_order(new_order)
+        txes.append(fill_order(new_order))
 
     if order_obj.buy_amount < result.sell_amount:
         new_sell_amount = result.sell_amount - order_obj.buy_amount
@@ -181,7 +183,9 @@ def fill_order(order, txes=[]):
                      'buy_amount': new_buy_amount, 'sell_amount': new_sell_amount, 'sender_pk': result.sender_pk,
                      'receiver_pk': result.receiver_pk, 'creator_id': result.id}
         # print(new_buy_amount, new_sell_amount)
-        fill_order(new_order)
+        txes.append(fill_order(new_order))
+
+    return txes
 
 
 def execute_txes(txes):
@@ -201,10 +205,14 @@ def execute_txes(txes):
     algo_txes = [tx for tx in txes if tx['platform'] == "Algorand"]
     eth_txes = [tx for tx in txes if tx['platform'] == "Ethereum"]
 
+    w3 = Web3()
+
     # TODO:
     #       1. Send tokens on the Algorand and eth testnets, appropriately
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
     #       2. Add all transactions to the TX table
+    send_tokens_algo(g.acl, algo_sk, algo_txes)
+    send_tokens_eth(w3, eth_sk, eth_txes)
 
     pass
 
@@ -327,7 +335,8 @@ def trade():
             order['sell_amount'] = payload.get('sell_amount')
             order['sender_pk'] = payload.get('sender_pk')
             order['receiver_pk'] = payload.get('receiver_pk')
-            fill_order(order)
+            txes = fill_order(order)
+            execute_txes(txes)
 
 
         else:
