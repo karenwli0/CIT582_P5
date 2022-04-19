@@ -338,7 +338,7 @@ def trade():
             amount = tx.get('transactions')[0].get('payment-transaction').get('amount')
             sender = tx.get('transactions')[0].get('sender')
             receiver = tx.get('transactions')[0].get('payment-transaction').get('receiver')
-            print(amount, sell_amount, sender, pk, receiver, server_pk)
+            # print(amount, sell_amount, sender, pk, receiver, server_pk)
             if amount == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
