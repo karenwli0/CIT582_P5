@@ -129,7 +129,7 @@ def get_eth_keys(filename="eth_mnemonic.txt"):
     acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key
-    print("eth", eth_pk, eth_sk)
+    # print("eth", eth_pk, eth_sk)
 
     return eth_sk, eth_pk
 
@@ -221,6 +221,7 @@ def execute_txes(txes):
     i = 0
     for tx in algo_txes:
         tx_obj = TX(order_id=tx.order_id, tx_id=algo_tx_ids[i])
+        print(tx_obj)
         g.session.add(tx_obj)
         g.session.commit()
         i += 1
@@ -228,6 +229,7 @@ def execute_txes(txes):
     i = 0
     for tx in eth_txes:
         tx_obj = TX(order_id=tx.order_id, tx_id=eth_tx_ids[i])
+        print(tx_obj)
         g.session.add(tx_obj)
         g.session.commit()
         i += 1
@@ -389,7 +391,7 @@ def order_book():
         result = g.session.query(TX).filter(TX.order_id == row.id).first()
         temp["tx_id"] = result.tx_id
 
-        # print(temp)
+        print(temp)
         datalist.append(temp)
 
     result = {'data': datalist}
