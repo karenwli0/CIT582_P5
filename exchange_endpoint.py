@@ -243,17 +243,17 @@ def address():
             platform = payload.get('platform')
 
         # if content['platform'] == "Ethereum":
-        print("address platform is", platform)
+        # print("address platform is", platform)
         if platform == "Ethereum":
             # Your code here
             eth_sk, eth_pk = get_eth_keys()
-            print(eth_pk, jsonify(eth_pk))
+            # print(eth_pk, jsonify(eth_pk))
             return jsonify(eth_pk)
         # if content['platform'] == "Algorand":
         if platform == "Algorand":
             # Your code here
             algo_sk, algo_pk = get_algo_keys()
-            print(algo_pk, jsonify(algo_pk))
+            # print(algo_pk, jsonify(algo_pk))
             return jsonify(algo_pk)
 
 
@@ -325,13 +325,13 @@ def trade():
 
         # print(result)
         validity = False
-        print(platform)
+        # print(platform)
         if platform == 'Ethereum':
             tx = w3.eth.get_transaction(id)
             gas = tx.get('result').get('value')
             sender = tx.get('result').get('from')
             receiver = tx.get('result').get('to')
-            print(receiver, server_pk.get_json(), receiver == server_pk.get_json())
+            # print(receiver, server_pk.get_json(), receiver == server_pk.get_json())
             if gas == sell_amount and sender == pk and receiver == server_pk.get_json():
                 validity = True
 
@@ -340,12 +340,12 @@ def trade():
             amount = tx.get('transactions')[0].get('payment-transaction').get('amount')
             sender = tx.get('transactions')[0].get('sender')
             receiver = tx.get('transactions')[0].get('payment-transaction').get('receiver')
-            print(receiver, server_pk.get_json(), receiver == server_pk.get_json())
+            # print(receiver, server_pk.get_json(), receiver == server_pk.get_json())
             if amount == sell_amount and sender == pk and receiver == server_pk.get_json():
                 validity = True
 
         # TODO: Add the order to the database
-        print(sig_result, validity)
+        # print(sig_result, validity)
 
         if sig_result and validity:
             # TODO: Fill the order
@@ -378,7 +378,7 @@ def order_book():
         datalist.append(temp)
 
     result = {'data': datalist}
-    # print(result)
+    print(result)
     return jsonify(result)
 
 
