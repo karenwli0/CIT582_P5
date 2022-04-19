@@ -243,6 +243,7 @@ def address():
             platform = payload.get('platform')
 
         # if content['platform'] == "Ethereum":
+        print("address platform is", platform)
         if platform == "Ethereum":
             # Your code here
             eth_sk, eth_pk = get_eth_keys()
@@ -252,6 +253,7 @@ def address():
         if platform == "Algorand":
             # Your code here
             algo_sk, algo_pk = get_algo_keys()
+            print(algo_pk, jsonify(algo_pk))
             return jsonify(algo_pk)
 
 
@@ -338,7 +340,7 @@ def trade():
             amount = tx.get('transactions')[0].get('payment-transaction').get('amount')
             sender = tx.get('transactions')[0].get('sender')
             receiver = tx.get('transactions')[0].get('payment-transaction').get('receiver')
-            # print(amount, sell_amount, sender, pk, receiver, server_pk)
+            print(amount, sell_amount, sender, pk, receiver, server_pk)
             if amount == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
