@@ -345,7 +345,7 @@ def trade():
                 validity = True
 
         # TODO: Add the order to the database
-        # print(sig_result, validity)
+        print(sig_result, validity)
 
         if sig_result and validity:
             # TODO: Fill the order
