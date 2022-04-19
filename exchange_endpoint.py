@@ -331,8 +331,8 @@ def trade():
             gas = tx.get('result').get('value')
             sender = tx.get('result').get('from')
             receiver = tx.get('result').get('to')
-            print(gas, sell_amount, sender, pk, receiver, server_pk)
-            if gas == sell_amount and sender == pk:
+            print(receiver, server_pk, receiver == server_pk)
+            if gas == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
         if platform == 'Algorand':
@@ -340,8 +340,8 @@ def trade():
             amount = tx.get('transactions')[0].get('payment-transaction').get('amount')
             sender = tx.get('transactions')[0].get('sender')
             receiver = tx.get('transactions')[0].get('payment-transaction').get('receiver')
-            print(amount, sell_amount, sender, pk, receiver, server_pk)
-            if amount == sell_amount and sender == pk:
+            print(receiver, server_pk, receiver == server_pk)
+            if amount == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
         # TODO: Add the order to the database
@@ -358,8 +358,6 @@ def trade():
             order['receiver_pk'] = payload.get('receiver_pk')
             txes = fill_order(order)
             execute_txes(txes)
-
-
         else:
             log_message(payload)
             return jsonify(False)
