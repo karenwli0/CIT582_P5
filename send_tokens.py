@@ -5,6 +5,8 @@ from algosdk.v2client import indexer
 from algosdk import account
 from algosdk.future import transaction
 
+from models import TX
+
 
 def connect_to_algo(connection_type=''):
     # Connect to Algorand node maintained by PureStake
@@ -52,7 +54,7 @@ def send_tokens_algo(acl, sender_sk, txes):
                                              send_amount, flat_fee=True)
 
         # TODO: Sign the transaction
-        signed_tx = tx.sign(sender_sk)
+        signed_tx = unsigned_tx.sign(sender_sk)
 
         try:
             print(f"Sending {tx['amount']} microalgo from {sender_pk} to {tx['receiver_pk']}")
@@ -62,6 +64,7 @@ def send_tokens_algo(acl, sender_sk, txes):
             tx_id = signed_tx.transaction.get_txid()
             txinfo = wait_for_confirmation_algo(acl, txid=tx_id)
             tx_ids.append(tx_id)
+
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n")
         except Exception as e:
             print(e)

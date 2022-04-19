@@ -166,7 +166,6 @@ def fill_order(order, txes=[]):
     tx_dict = {'order_id': order_obj.id, 'platform': order["sell_currency"], 'receiver_pk': order['receiver_pk'],
                'order': result, 'tx_amount': order["sell_amount"]}
     txes.append(tx_dict)
-    txes.append(result)
 
     # print(result.id, result.counterparty_id, order_obj.id, order_obj.counterparty_id)
 
@@ -216,9 +215,22 @@ def execute_txes(txes):
     #       1. Send tokens on the Algorand and eth testnets, appropriately
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
     #       2. Add all transactions to the TX table
-    send_tokens_algo(g.acl, algo_sk, algo_txes)
-    send_tokens_eth(w3, eth_sk, eth_txes)
+    algo_tx_ids = send_tokens_algo(g.acl, algo_sk, algo_txes)
+    eth_tx_ids = send_tokens_eth(w3, eth_sk, eth_txes)
 
+    i = 0
+    for tx in algo_txes:
+        tx_obj = TX(order_id=tx.order_id, tx_id=algo_tx_ids[i])
+        g.session.add(tx_obj)
+        g.session.commit()
+        i += 1
+
+    i = 0
+    for tx in eth_txes:
+        tx_obj = TX(order_id=tx.order_id, tx_id=eth_tx_ids[i])
+        g.session.add(tx_obj)
+        g.session.commit()
+        i += 1
     pass
 
 
@@ -374,6 +386,9 @@ def order_book():
         temp = {'sender_pk': row.sender_pk, 'receiver_pk': row.receiver_pk, 'buy_currency': row.buy_currency,
                 'sell_currency': row.sell_currency, 'buy_amount': row.buy_amount, 'sell_amount': row.sell_amount,
                 'tx_id': row.tx_id}
+        result = g.session.query(TX).filter(TX.order_id == row.id).first()
+        temp["tx_id"] = result.tx_id
+
         # print(temp)
         datalist.append(temp)
 
