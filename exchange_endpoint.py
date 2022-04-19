@@ -229,7 +229,7 @@ def execute_txes(txes):
 def address():
     if request.method == "POST":
         content = request.get_json(silent=True)
-        print(content)
+        # print(content)
         # if 'platform' not in content.keys():
         #     print(f"Error: no platform provided")
         #     return jsonify("Error: no platform provided")
@@ -329,7 +329,7 @@ def trade():
             gas = tx.get('result').get('value')
             sender = tx.get('result').get('from')
             receiver = tx.get('result').get('to')
-            # print(gas, sell_amount, sender, pk, receiver, server_pk)
+            print(gas, sell_amount, sender, pk, receiver, server_pk)
             if gas == sell_amount and sender == pk and receiver == server_pk:
                 validity = True
 
