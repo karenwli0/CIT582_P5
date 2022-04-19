@@ -323,7 +323,7 @@ def trade():
 
         # print(result)
         validity = False
-
+        print(platform)
         if platform == 'Ethereum':
             tx = w3.eth.get_transaction(id)
             gas = tx.get('result').get('value')
